@@ -1,0 +1,41 @@
+
+## Recommended maintenance rule
+
+Update `PROJECT_STATUS.md` whenever one of these occurs:
+
+- a milestone changes state;
+- a package or wrapper is delivered;
+- tests are run;
+- a hard gate passes or fails;
+- a design decision changes;
+- a new limitation is discovered;
+- the next action changes; or
+- live verification produces a result file.
+
+Do not rewrite the entire file after every change. Normally, update only:
+
+1. Status Summary
+2. Current State at a Glance
+3. Current Milestone
+4. Known Limitations
+5. Next Action
+6. Completion Record
+7. Last updated
+
+### Timestamp recommendation
+
+Use an exact timestamp near the top:
+
+> Last updated: 2026-11-24 19:47 NZDT
+
+
+For verified milestones, also record:
+
+Completed:
+Git commit:
+Package version:
+Result file:
+Result-file SHA-256:
+Tests:
+Final result:
+
