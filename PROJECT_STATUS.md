@@ -1,4 +1,39 @@
+# RouterGen Project Status
 
+Current development line: v0.2
+Current phase: v0.2-A
+Current milestone: A1 Project/bootstrap
+
+Previous baseline:
+12 PASS / 0 FAIL
+
+v0.2-A safety mode:
+READ ONLY
+
+Completed design:
+- v0.2 data model frozen
+- JSON Schema design
+- semantic validation rules identified
+- optional per-router FRR intent
+- v0.2-A project architecture drafted
+
+Current implementation sequence:
+
+A1 Project/bootstrap
+A2 Topology/schema + semantic validation
+A3 Host discovery
+A4 Resolution
+A5 Read-only plan
+
+Next:
+Implement v0.2-A1.
+
+Hard gate:
+v0.2-B must not begin until logical topology +
+actual host discovery + optional profile +
+user selections produce a fully resolved router,
+semantic PASS and deterministic read-only plan
+without changing host networking.
 # RouterGen Project Status
 
 > Project stage: Pre-alpha  
