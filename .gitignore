@@ -1,0 +1,29 @@
+# Python virtual environments
+.venv/
+venv/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test / coverage output
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Packaging output
+build/
+dist/
+*.egg-info/
+
+# IDE / editor
+.vscode/
+.idea/
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# RouterGen local/runtime artifacts
+*.log
