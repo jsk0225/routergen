@@ -1,45 +1,40 @@
 # RouterGen Project Status
 
-> **Project stage:** Pre-alpha
-> **Development line:** v0.2
-> **Current phase:** v0.2-A, Read-Only Architecture
-> **Current milestone:** v0.2-A1, Project and Bootstrap
-> **Milestone state:** Implemented and WSL2-lab verified, pending merge to `main`
-> **Last updated:** 2026-11-25
-> **Network changes permitted in v0.2-A:** No
+**Project stage:** Pre-alpha
+**Development line:** v0.2
+**Current phase:** v0.2-A, Read-Only Architecture
+**Current milestone:** v0.2-A2, Topology/Schema and Semantic-Validation Framework (next)
+**Last completed milestone:** v0.2-A1, Project and Bootstrap, **COMPLETE**
+**Last updated:** 2026-11-25
+**Network changes permitted in v0.2-A:** No
 
 ---
 
 ## 1. Status Summary
 
-RouterGen is a safety-first topology compiler for creating reproducible Linux
-and WSL2 router environments from declarative topology definitions.
+RouterGen is a safety-first topology compiler for creating reproducible Linux and WSL2 router environments from declarative topology definitions.
 
-The v0.2 development line is currently in **v0.2-A**, which establishes the
-complete read-only pipeline before any network mutation functionality is
-allowed.
-
-The v0.2-A pipeline is:
+The v0.2 development line is in **v0.2-A**, establishing the complete read-only pipeline before any network mutation functionality is allowed.
 
 ```text
 Topology
-   |
-   v
+  |
+  v
 Schema Validation
-   |
-   v
+  |
+  v
 Host Discovery
-   |
-   v
+  |
+  v
 Resolution
-   |
-   v
+  |
+  v
 Semantic Validation
-   |
-   v
+  |
+  v
 Deterministic Planning
-   |
-   v
+  |
+  v
 STOP
 ```
 
@@ -47,19 +42,11 @@ The entire v0.2-A phase must make **zero network configuration changes**.
 
 ### Current position
 
-v0.2-A1 has now been:
+v0.2-A1 was implemented on `feature/v0.2-a1-bootstrap`, tested in GitHub Codespaces and on the physical WSL2 test laptop, and verified with 7/7 automated tests and passing read-only diagnostics in each environment. Its verification evidence was committed on the feature branch as `88523a9`.
 
-- implemented on `feature/v0.2-a1-bootstrap`;
-- tested in GitHub Codespaces;
-- tested on the WSL2 test laptop;
-- verified with 7/7 automated tests;
-- verified with read-only environment diagnostics; and
-- confirmed to make no network changes.
+**Pull Request #1 was merged into `main`** at commit `547bb56b770a804c02a950a02fc763d992b4b054`. Both Codespaces and the WSL2 test laptop subsequently synchronized to this exact commit, had clean working trees, and passed post-merge regression tests and diagnostics. **A1 is COMPLETE.**
 
-A1 has **not yet been merged into `main`**.
-
-The next repository action is to record the A1 evidence, review the feature
-branch through a Pull Request, and merge it into `main`.
+Next development milestone: **v0.2-A2**, topology/schema and semantic-validation framework. The A1 closure documentation update itself must be reviewed and committed separately; it does not change the already verified A1 code baseline.
 
 ---
 
@@ -68,14 +55,14 @@ branch through a Pull Request, and merge it into `main`.
 | Area | Status | Notes |
 |---|---|---|
 | Project purpose | Defined | Safety-first topology compiler for Linux router environments |
-| v0.2 data model | Frozen for v0.2-A | Host, router, interface, bridge, SVI, transport, and optional FRR intent |
+| v0.2 data model | Frozen for v0.2-A | Host, router, interface, bridge, SVI, transport, optional FRR intent |
 | JSON Schema architecture | Defined | Structural validation belongs in JSON Schema |
-| Semantic-validation architecture | Defined | Cross-object and host-dependent validation remains outside JSON Schema |
-| Host-discovery architecture | Defined | Structured `ip -j` / `bridge -j` data is the preferred interface |
+| Semantic-validation architecture | Defined | Cross-object and host-dependent validation outside JSON Schema |
+| Host-discovery architecture | Defined | Structured `ip -j` / `bridge -j` data preferred |
 | Configuration precedence | Frozen | CLI > prompt > profile > topology default > RouterGen default |
-| Read-only planning architecture | Defined | Plans must be deterministic and non-mutating |
-| A1 implementation | WSL2-lab verified | 7/7 tests PASS on Codespace and WSL2 |
-| A2 implementation | Not started | Next development milestone after A1 merge |
+| Read-only planning architecture | Defined | Deterministic, non-mutating plans |
+| A1 implementation | **COMPLETE** | PR #1 merged; Codespaces and WSL2 each 7/7 PASS on merged `main` |
+| A2 implementation | Not started | Next development milestone |
 | Network apply | Not implemented | Explicitly outside v0.2-A |
 | Reconciliation | Design defined | Not implemented |
 | Post-apply validation | Planned | Later lifecycle |
@@ -86,60 +73,39 @@ branch through a Pull Request, and merge it into `main`.
 
 ## 3. Historical Prototype Baseline
 
-Before the current GitHub-based RouterGen implementation, the earlier
-`wsl2-router-netgen` prototype achieved:
+Before the current GitHub-based RouterGen implementation, the earlier `wsl2-router-netgen` prototype achieved:
 
 ```text
 12 PASS
 0 FAIL
 ```
 
-That result is retained as **historical prototype evidence**.
-
-It must not be described as the current GitHub RouterGen test suite.
-
-The current GitHub RouterGen implementation has its own automated test
-baseline, established during v0.2-A1.
-
-Where earlier prototype behavior is carried into the current codebase, it
-should be represented by current RouterGen tests rather than relying solely
-on the historical 12/12 result.
+This is **historical prototype evidence**, not the current GitHub RouterGen test suite. The current RouterGen implementation has its own automated baseline established during v0.2-A1. Any prototype behavior carried into the current codebase should receive current RouterGen tests.
 
 ---
 
 ## 4. Current GitHub Test Baseline
 
-Current RouterGen feature branch:
+**Authoritative branch:** `main`
+**Merged A1 commit:** `547bb56b770a804c02a950a02fc763d992b4b054`
+
+A1 history:
 
 ```text
-feature/v0.2-a1-bootstrap
+a9a3204 feat: add RouterGen v0.2-A1 bootstrap foundation
+f5972dc build: add reproducible development bootstrap
+88523a9 docs: record v0.2-A1 verification status
+547bb56 Merge pull request #1 from jsk0225/feature/v0.2-a1-bootstrap
 ```
 
-Verified implementation commits:
-
-```text
-a9a3204  feat: add RouterGen v0.2-A1 bootstrap foundation
-f5972dc  build: add reproducible development bootstrap
-```
-
-Current automated test result:
+**Post-merge automated baseline, each environment:**
 
 ```text
 7 PASS
 0 FAIL
 ```
 
-The current test suite covers:
-
-- package version;
-- CLI parser construction;
-- CLI baseline execution;
-- successful environment-diagnostic evaluation;
-- missing-required-command failure;
-- non-Linux failure;
-- read-only safety reporting.
-
-This becomes the current RouterGen test baseline for the A1 implementation.
+The current suite covers package version, CLI parser construction, CLI baseline execution, successful environment-diagnostic evaluation, missing-required-command failure, non-Linux failure, and read-only safety reporting.
 
 ---
 
@@ -147,48 +113,29 @@ This becomes the current RouterGen test baseline for the A1 implementation.
 
 | Milestone | Description | Status |
 |---|---|---|
-| A1 | Project/bootstrap | **WSL2-lab verified, pending merge** |
-| A2 | Topology/schema + semantic-validation framework | Not started |
+| A1 | Project/bootstrap | **COMPLETE: merged and cross-environment verified** |
+| A2 | Topology/schema + semantic-validation framework | Not started; next |
 | A3 | Structured host discovery | Planned |
 | A4 | Resolution, profiles, prompts, and precedence | Planned |
 | A5 | Deterministic read-only planning | Planned |
 
 ---
 
-# 6. Current Milestone: v0.2-A1
+# 6. Completed Milestone: v0.2-A1
 
 ## 6.1 Objective
 
-Establish a clean, reproducible RouterGen development and execution
-environment without modifying host networking.
+Establish a clean, reproducible RouterGen development and execution environment without modifying host networking.
 
 ## 6.2 Implemented
 
-The A1 implementation currently provides:
-
-- Python package structure under `src/routergen`;
-- `pyproject.toml` packaging;
-- editable development installation;
-- RouterGen CLI entry point;
-- `routergen --help`;
-- `routergen --version`;
-- `routergen diagnose`;
-- Linux platform detection;
-- WSL detection;
-- virtual-environment reporting;
-- required external-command discovery;
-- command checks for:
-  - `ip`;
-  - `bridge`;
-  - `sysctl`; and
-  - `ss`;
-- dedicated RouterGen `.venv`;
-- automated pytest framework;
-- development dependency definition;
-- reproducible development bootstrap;
-- fresh `.venv` bootstrap;
-- repeat/idempotent bootstrap behavior; and
-- explicit read-only safety reporting.
+- Python package structure under `src/routergen` and `pyproject.toml` packaging.
+- Editable development installation, dedicated RouterGen `.venv`, and development dependencies.
+- RouterGen CLI entry point: `routergen --help`, `routergen --version`, `routergen diagnose`.
+- Linux and WSL detection; virtual-environment reporting.
+- Required external-command discovery: `ip`, `bridge`, `sysctl`, `ss`.
+- Automated pytest framework and explicit read-only safety reporting.
+- Reproducible development bootstrap; fresh `.venv` creation and repeat/idempotent bootstrap verified.
 
 The diagnostic reports:
 
@@ -199,48 +146,37 @@ NETWORK_CHANGES_PERMITTED=NO
 
 A1 does not contain network apply functionality.
 
----
-
 ## 6.3 Reproducible Bootstrap
 
-The development bootstrap is:
-
-```text
-scripts/bootstrap-dev.sh
-```
-
-Its workflow is:
+Script: `scripts/bootstrap-dev.sh`
 
 ```text
 Check Python >= 3.10
-        |
-        v
+  |
+  v
 Create/reuse .venv
-        |
-        v
+  |
+  v
 Install RouterGen + development dependencies
-        |
-        v
+  |
+  v
 Run automated tests
-        |
-        v
+  |
+  v
 Run read-only environment diagnostics
 ```
 
-It can be run with:
+Run:
 
 ```bash
 ./scripts/bootstrap-dev.sh
 ```
 
-The script is designed to work without requiring the caller's shell to have
-the RouterGen virtual environment activated.
+The caller's shell need not have the RouterGen virtual environment activated.
 
----
+## 6.4 Codespaces Verification
 
-## 6.4 Codespace Verification
-
-Environment:
+**Post-merge verification:** branch `main`, commit `547bb56b770a804c02a950a02fc763d992b4b054`; clean working tree; local `HEAD` matched `origin/main`.
 
 ```text
 Platform: GitHub Codespaces / Linux
@@ -248,171 +184,78 @@ Python: 3.14.2
 RouterGen: 0.2.0.dev0
 Virtual environment: /workspaces/routergen/.venv
 WSL: no
-```
-
-Required commands:
-
-```text
-ip      PASS
-bridge  PASS
-sysctl  PASS
-ss      PASS
-```
-
-Automated tests:
-
-```text
-7 PASS
-0 FAIL
-```
-
-Diagnostic:
-
-```text
+ip PASS
+bridge PASS
+sysctl PASS
+ss PASS
+Tests: 7 PASS / 0 FAIL
 FINAL_RESULT=PASS
 NETWORK_CHANGES_PERMITTED=NO
 ```
 
-Fresh virtual-environment creation was tested successfully.
-
-A subsequent bootstrap against the already-created environment also passed,
-demonstrating repeatable/idempotent bootstrap behavior.
-
-Generated `.venv`, Python-cache, pytest-cache, and package-build artifacts
-remain excluded from Git.
-
----
+Fresh virtual-environment creation and repeat/idempotent bootstrap were verified during A1 development. Generated `.venv`, Python-cache, pytest-cache, and package-build artifacts remain excluded from Git.
 
 ## 6.5 WSL2 Test-Laptop Verification
 
-A1 was independently verified on the project's WSL2 test laptop.
-
-Checkout:
+**Post-merge verification:** branch `main`, commit `547bb56b770a804c02a950a02fc763d992b4b054`; clean working tree; local `HEAD` matched `origin/main`.
 
 ```text
-/mnt/c/Project/routergen
-```
-
-Verified branch:
-
-```text
-feature/v0.2-a1-bootstrap
-```
-
-Verified commit:
-
-```text
-f5972dc
-```
-
-Environment:
-
-```text
+Checkout: /mnt/c/Project/routergen
 Platform: Linux / WSL2
+Kernel: 6.18.58.1-microsoft-standard-WSL2
 Python: 3.12.3
 RouterGen: 0.2.0.dev0
 Virtual environment: /mnt/c/Project/routergen/.venv
 WSL: yes
-```
-
-WSL kernel reported:
-
-```text
-6.18.58.1-microsoft-standard-WSL2
-```
-
-Required commands:
-
-```text
-ip      PASS
-bridge  PASS
-sysctl  PASS
-ss      PASS
-```
-
-Automated tests:
-
-```text
-7 PASS
-0 FAIL
-```
-
-Diagnostic:
-
-```text
+ip PASS
+bridge PASS
+sysctl PASS
+ss PASS
+Tests: 7 PASS / 0 FAIL
 FINAL_RESULT=PASS
 NETWORK_CHANGES_PERMITTED=NO
 ```
 
-The RouterGen environment is separate from the existing OSPF Alt project
-environment.
-
-No OSPF Alt namespace, FRR pathspace, route, bridge, VLAN, interface, or
-other network configuration was intentionally modified by A1 verification.
-
----
+The RouterGen environment is separate from the existing OSPF Alt project environment. No OSPF Alt namespace, FRR pathspace, route, bridge, VLAN, interface, or other network configuration was intentionally modified by A1 verification.
 
 ## 6.6 A1 Acceptance Criteria
 
-- [x] RouterGen installs into its own `.venv`.
-- [x] The RouterGen `.venv` is separate from the OSPF Alt environment.
-- [x] RouterGen installs in editable mode.
-- [x] The CLI starts successfully.
-- [x] `routergen --help` works.
-- [x] `routergen --version` works.
-- [x] `routergen diagnose` works.
-- [x] Linux is detected.
-- [x] WSL is detected when applicable.
+- [x] RouterGen installs into its own `.venv`, separate from OSPF Alt.
+- [x] Editable install and CLI startup work.
+- [x] `routergen --help`, `routergen --version`, and `routergen diagnose` work.
+- [x] Linux and WSL detection work where applicable.
 - [x] Required external commands are detected.
-- [x] Missing required-command behavior is covered by automated tests.
-- [x] Non-Linux diagnostic failure is covered by automated tests.
-- [x] Fresh `.venv` bootstrap has been verified.
-- [x] Repeated bootstrap has been verified.
-- [x] Automated tests pass in Codespaces.
-- [x] Automated tests pass on the WSL2 test laptop.
-- [x] A1 diagnostic output states that network changes are not permitted.
+- [x] Missing-command and non-Linux failure behavior are covered by tests.
+- [x] Fresh and repeated bootstrap verified.
+- [x] Automated tests pass in Codespaces and on the WSL2 laptop.
+- [x] Diagnostics explicitly prohibit network changes.
 - [x] A1 performs no intentional network configuration changes.
-- [ ] A1 verification evidence is committed to `PROJECT_STATUS.md`.
-- [ ] A1 Pull Request is reviewed.
-- [ ] A1 feature branch is merged into `main`.
-- [ ] Codespace `main` is synchronized after the merge.
-- [ ] WSL2 test checkout is synchronized with merged `main`.
+- [x] A1 verification evidence committed to `PROJECT_STATUS.md` on feature branch (`88523a9`).
+- [x] A1 Pull Request #1 reviewed and merged into `main`.
+- [x] Codespaces `main` synchronized after merge.
+- [x] WSL2 test checkout synchronized with merged `main`.
+- [x] Post-merge tests and diagnostics passed in both environments at identical commit `547bb56`.
 
-A1 will be marked **COMPLETE** after the remaining GitHub merge and
-post-merge synchronization steps pass.
+**A1 status: COMPLETE.** This post-merge closure record is a subsequent documentation update, not part of the original merge commit.
 
 ---
 
 # 7. v0.2 Architecture Invariants
 
-Detailed architecture is maintained in:
+Detailed architecture: `docs/architecture/architecture.md`. `PROJECT_STATUS.md` records implementation status rather than duplicating the architecture specification.
 
-```text
-docs/architecture/architecture.md
-```
-
-`PROJECT_STATUS.md` records implementation status rather than duplicating the
-entire architecture specification.
-
-The key v0.2 invariants are:
-
-1. Logical topology is separate from discovered host state.
-2. Host discovery occurs before host-dependent resolution.
-3. Missing configured host interfaces are never silently substituted.
-4. Each attachment represents one logical Layer-2 segment.
-5. Each logical Layer-2 attachment uses a dedicated bridge.
-6. Separate point-to-point VLANs must not be merged through a shared bridge.
-7. Router-interface addressing and host-SVI addressing are independent.
-8. Each independently supports `none`, `static`, or `dhcp`.
-9. VLAN `parent_role` resolves to an actually detected host device.
-10. Configuration-source precedence is deterministic.
-11. Resolved values retain provenance.
-12. Read-only planning is separate from apply.
-13. Identical normalized inputs must produce deterministic plans.
-14. Reconciliation must preserve unchanged resources.
-15. RouterGen must distinguish owned from externally managed resources.
-16. Network-underlay validation must pass before FRR lifecycle operations.
-17. Each logical router must use an independent FRR pathspace.
+- Logical topology is separate from discovered host state.
+- Host discovery occurs before host-dependent resolution.
+- Missing configured host interfaces are never silently substituted.
+- Each attachment represents one logical Layer-2 segment and uses a dedicated bridge.
+- Separate point-to-point VLANs must not be merged through a shared bridge.
+- Router-interface addressing and host-SVI addressing are independent; each supports `none`, `static`, or `dhcp`.
+- VLAN `parent_role` resolves to an actually detected host device.
+- Configuration-source precedence is deterministic and resolved values retain provenance.
+- Read-only planning is separate from apply; identical normalized inputs produce deterministic plans.
+- Reconciliation preserves unchanged resources and distinguishes RouterGen-owned from externally managed resources.
+- Network-underlay validation must pass before FRR lifecycle operations.
+- Each logical router must use an independent FRR pathspace.
 
 Any change to these invariants requires an explicit architecture decision.
 
@@ -420,21 +263,21 @@ Any change to these invariants requires an explicit architecture decision.
 
 # 8. Configuration Precedence
 
-The frozen v0.2 precedence is:
+Frozen v0.2 precedence:
 
 ```text
 CLI override
-    >
+  >
 interactive answer
-    >
+  >
 saved host/router profile
-    >
+  >
 topology JSON default
-    >
+  >
 RouterGen default
 ```
 
-The future resolver must retain the provenance of each resolved value.
+The future resolver must retain provenance of each resolved value.
 
 ---
 
@@ -444,99 +287,62 @@ RouterGen separates validation into three layers.
 
 ## 9.1 Schema Validation
 
-JSON Schema handles structural constraints such as:
-
-- required objects and fields;
-- types;
-- enumerations;
-- permitted addressing modes;
-- permitted transport types;
-- identifier formatting; and
-- value ranges expressible in JSON Schema.
+JSON Schema handles structural constraints: required objects/fields, types, enumerations, permitted addressing modes, permitted transport types, identifier formatting, and expressible value ranges.
 
 ## 9.2 Semantic Validation
 
-Semantic validation handles relationships and constraints such as:
-
-- router identity uniqueness;
-- namespace uniqueness;
-- FRR pathspace uniqueness;
-- valid object references;
-- interface uniqueness;
-- bridge ownership;
-- VLAN consistency;
-- addressing conflicts;
-- transport-specific rules;
-- host-role resolution;
-- generated-name collisions; and
-- prevention of unintended Layer-2 merging.
+Semantic validation handles router identity and namespace uniqueness; FRR pathspace uniqueness; valid object references; interface uniqueness; bridge ownership; VLAN consistency; addressing conflicts; transport-specific rules; host-role resolution; generated-name collisions; and prevention of unintended Layer-2 merging.
 
 ## 9.3 Operational Validation
 
-Operational validation belongs primarily to later lifecycle stages and will
-cover real system state such as:
-
-- namespace existence;
-- interface creation;
-- link state;
-- bridge membership;
-- VLAN state;
-- addressing;
-- routes;
-- policy rules;
-- connectivity; and
-- FRR/routing-protocol state.
+Later lifecycle stages validate actual namespace existence, interface creation, link state, bridge membership, VLAN state, addressing, routes, policy rules, connectivity, and FRR/routing-protocol state.
 
 ---
 
 # 10. v0.2-A Hard Gate
 
-RouterGen must not begin the v0.2-B apply lifecycle until this pipeline is
-proven:
+RouterGen must not begin v0.2-B apply lifecycle until this pipeline is proven:
 
 ```text
 Logical topology
-       +
+ +
 Actual host discovery
-       +
+ +
 Optional saved profile
-       +
+ +
 CLI overrides / user selections
-       |
-       v
+ |
+ v
 Fully resolved router
-       |
-       v
+ |
+ v
 Schema validation PASS
-       |
-       v
+ |
+ v
 Semantic validation PASS
-       |
-       v
+ |
+ v
 Deterministic plan
-       |
-       v
+ |
+ v
 ZERO NETWORK CHANGES
 ```
 
-The hard gate requires:
+- [ ] Topology structurally valid.
+- [ ] Topology semantically valid.
+- [ ] Required host devices actually detected.
+- [ ] Every required host role resolved.
+- [ ] Every selected router interface fully resolved.
+- [ ] Every attachment mapped to the correct dedicated Layer-2 bridge.
+- [ ] Every non-staged transport fully resolved.
+- [ ] Addressing intent unambiguous.
+- [ ] Provenance of resolved values retained.
+- [ ] Identical normalized inputs produce the same plan.
+- [ ] Plan ordering deterministic.
+- [ ] No network or routing state changed.
+- [ ] Consolidated verification evidence produced.
 
-- [ ] topology structurally valid;
-- [ ] topology semantically valid;
-- [ ] required host devices actually detected;
-- [ ] every required host role resolved;
-- [ ] every selected router interface fully resolved;
-- [ ] every attachment mapped to the correct dedicated Layer-2 bridge;
-- [ ] every non-staged transport fully resolved;
-- [ ] addressing intent unambiguous;
-- [ ] provenance of resolved values retained;
-- [ ] identical normalized inputs produce the same plan;
-- [ ] plan ordering deterministic;
-- [ ] no network or routing state changed; and
-- [ ] consolidated verification evidence produced.
-
-Passing this gate allows work on v0.2-B to begin. It does not make RouterGen
-production ready.
+Passing this gate allows work on v0.2-B to begin; it does not make RouterGen production ready.
 
 ---
 
@@ -544,19 +350,11 @@ production ready.
 
 ## A2: Topology/schema + semantic validation
 
-Planned deliverables:
-
-- v0.2 topology model;
-- JSON Schema;
-- topology loader;
-- normalized internal representation;
-- schema-validation reporting;
-- semantic-validation framework; and
-- initial semantic rule set.
+Planned: v0.2 topology model, JSON Schema, topology loader, normalized internal representation, schema-validation reporting, semantic-validation framework, initial semantic rule set.
 
 ## A3: Structured Host Discovery
 
-Planned discovery sources include:
+Read-only sources planned:
 
 ```bash
 ip -j link show
@@ -567,28 +365,13 @@ bridge -j link show
 bridge -j vlan show
 ```
 
-Discovery remains read-only.
-
 ## A4: Resolution
 
-Planned deliverables:
-
-- saved host profile loading;
-- saved router profile loading;
-- interactive selection;
-- non-interactive operation;
-- CLI overrides;
-- precedence processing;
-- role-to-device mapping;
-- value provenance;
-- unresolved-value reporting; and
-- fully resolved router representation.
+Planned: saved host/router profiles, interactive selection, non-interactive operation, CLI overrides, precedence processing, role-to-device mapping, provenance, unresolved-value reporting, and fully resolved router representation.
 
 ## A5: Deterministic Planning
 
-The planning layer will describe proposed changes without executing them.
-
-Example plan records may eventually include:
+The planning layer describes proposed changes without executing them. Example **plan records only**:
 
 ```text
 CREATE namespace r1
@@ -601,134 +384,66 @@ ASSIGN router address
 LEAVE bridge SVI unnumbered
 ```
 
-During v0.2-A, these remain data describing intended operations. They are not
-authorization to execute Linux networking commands.
+These records are data, not authorization to execute networking commands during v0.2-A.
 
 ---
 
 # 12. Out of Scope for v0.2-A
 
-The following remain explicitly outside the current phase:
+Network apply; namespace creation/deletion; bridge creation/deletion; veth or VLAN creation; address, route, or policy-rule modification; forwarding or firewall/nftables changes; persistence configuration; FRR configuration generation or startup/shutdown; OSPF or BGP configuration; destructive reconciliation; rollback execution; multi-host orchestration; remote deployment; and production appliance packaging.
 
-- network apply;
-- namespace creation/deletion;
-- bridge creation/deletion;
-- veth creation;
-- VLAN creation;
-- address modification;
-- route modification;
-- policy-rule modification;
-- forwarding changes;
-- firewall/nftables changes;
-- persistence configuration;
-- FRR configuration generation;
-- FRR startup/shutdown;
-- OSPF configuration;
-- BGP configuration;
-- destructive reconciliation;
-- rollback execution;
-- multi-host orchestration;
-- remote deployment; and
-- production appliance packaging.
-
-Architecture documentation may discuss these capabilities, but they must not
-be presented as currently implemented.
+Architecture documentation may discuss these capabilities, but they must not be presented as implemented.
 
 ---
 
 # 13. Known Limitations
 
-1. RouterGen remains pre-alpha.
-2. Only A1 of v0.2-A has been implemented.
-3. A1 has not yet been merged into `main`.
-4. The current automated GitHub RouterGen suite contains seven tests.
-5. A2 topology/schema implementation has not started.
-6. Structured A3 host discovery has not been implemented.
-7. A4 resolution has not been implemented.
-8. A5 deterministic planning has not been implemented.
-9. Network apply is intentionally unavailable.
-10. DHCP behavior has not been implemented or operationally validated.
-11. Host-routed transport has not been operationally implemented.
-12. External-bridge lifecycle/ownership handling has not been implemented.
-13. FRR intent is part of the architecture, but FRR lifecycle management is
-    not implemented.
-14. Multi-host deployment/orchestration has not been implemented.
-15. Rollback/recovery behavior has not been implemented.
-16. Persistence across restart has not been implemented.
-17. Production security and privilege-separation review has not been
-    completed.
+- RouterGen remains pre-alpha. Only A1 of v0.2-A has been implemented and merged.
+- The current automated GitHub RouterGen suite contains seven tests.
+- A2 topology/schema, A3 host discovery, A4 resolution, and A5 planning have not been implemented.
+- Network apply is intentionally unavailable.
+- DHCP behavior has not been implemented or operationally validated.
+- Host-routed transport has not been operationally implemented.
+- External-bridge lifecycle/ownership handling has not been implemented.
+- FRR intent is architectural; FRR lifecycle management is not implemented.
+- Multi-host orchestration, rollback/recovery, and restart persistence are not implemented.
+- Production security and privilege-separation review is incomplete.
 
-Host-interface observations from a particular machine must be treated as
-discovered host state rather than permanent RouterGen project limitations.
+Host-interface observations from a particular machine are discovered host state, not permanent RouterGen limitations.
 
 ---
 
 # 14. Safety Rules
 
-1. Never silently replace a missing configured interface.
-2. Never treat an example topology as approved for the current host.
-3. Never execute apply behavior from a read-only command.
-4. Never merge independent Layer-2 segments merely because they share a
-   transport device.
-5. Never infer host-SVI addressing from router-interface addressing.
-6. Never infer router-interface addressing from host-SVI addressing.
-7. Never begin FRR lifecycle operations before successful underlay
-   validation.
-8. Never reuse an FRR pathspace between different logical routers.
-9. Never delete resources that RouterGen does not own.
-10. Never describe a design-defined capability as implemented.
-11. Never describe an implemented capability as lab-verified without
-    evidence.
-12. Never weaken tests merely to make new implementation work.
-13. Never execute a plan merely because planning succeeded.
-14. Never substitute a detected interface for a missing configured device
-    unless explicit resolution selects it.
-15. Never perform network mutation during v0.2-A.
+- Never silently replace a missing configured interface.
+- Never treat an example topology as approved for the current host.
+- Never execute apply behavior from a read-only command.
+- Never merge independent Layer-2 segments merely because they share a transport device.
+- Never infer host-SVI addressing from router-interface addressing, or vice versa.
+- Never begin FRR lifecycle operations before successful underlay validation.
+- Never reuse an FRR pathspace between different logical routers.
+- Never delete resources RouterGen does not own.
+- Never describe design-defined capability as implemented or implementation as lab-verified without evidence.
+- Never weaken tests merely to make new implementation work.
+- Never execute a plan merely because planning succeeded.
+- Never substitute a detected interface for a missing configured device without explicit resolution.
+- Never perform network mutation during v0.2-A.
 
 ---
 
 # 15. Stability Definitions
 
-## Design Defined
+**Design Defined:** Architecture and intended behavior documented.
 
-The architecture and intended behavior are documented.
+**Implemented:** Capability exists in code.
 
-## Implemented
+**Deterministically Tested:** Automated tests demonstrate repeatable behavior without live network changes.
 
-The capability exists in code.
+**Lab Verified:** Capability exercised in intended controlled environment with recorded passing evidence.
 
-## Deterministically Tested
+**Stable:** Additionally requires documented behavior and failure behavior, regression coverage, appropriate integration/lab verification, lifecycle consideration, and no known critical safety defect.
 
-Automated tests demonstrate repeatable behavior without live network changes.
-
-## Lab Verified
-
-The capability has been exercised in the intended controlled environment and
-has recorded passing evidence.
-
-## Stable
-
-A capability should only be called stable when it additionally has:
-
-- documented behavior;
-- documented failure behavior;
-- regression coverage;
-- appropriate integration or lab verification;
-- lifecycle consideration; and
-- no known critical safety defect.
-
-## Production Ready
-
-Production readiness additionally requires areas such as:
-
-- security review;
-- privilege and ownership controls;
-- recovery behavior;
-- rollback;
-- supported installation/upgrade procedures;
-- operational documentation;
-- monitoring guidance; and
-- an explicit support policy.
+**Production Ready:** Additionally requires security review, privilege/ownership controls, recovery, rollback, supported install/upgrade, operational documentation, monitoring, and explicit support policy.
 
 No RouterGen capability is currently production ready.
 
@@ -736,20 +451,9 @@ No RouterGen capability is currently production ready.
 
 # 16. Evidence Policy
 
-Milestone verification should produce enough evidence to establish:
+Milestone evidence should establish RouterGen version, Git commit, topology/schema version where applicable, environment, Python version, tests, safety result, failure stage where applicable, whether mutation was permitted, and whether mutation occurred.
 
-- RouterGen version;
-- Git commit;
-- topology/schema version where applicable;
-- test environment;
-- Python version;
-- test result;
-- safety result;
-- failure stage where applicable;
-- whether mutation was permitted; and
-- whether mutation occurred.
-
-Preferred final markers for consolidated milestone results are:
+Preferred consolidated result markers:
 
 ```text
 FINAL_RESULT=PASS
@@ -758,46 +462,35 @@ NETWORK_CHANGES_PERMITTED=NO
 NETWORK_CHANGES_DETECTED=NO
 ```
 
-A future verification wrapper should consolidate milestone evidence into one
-result file where practical.
+**Evidence distinction:** The A1 diagnostic explicitly reported `FINAL_RESULT=PASS` and `NETWORK_CHANGES_PERMITTED=NO`. The other markers above are **future preferred wrapper markers**, not claims that the A1 diagnostic emitted them. A future verification wrapper should consolidate evidence into one result file where practical.
 
 ---
 
 # 17. Branch and Change Discipline
 
-Current development model:
+`main` is authoritative. A1's `feature/v0.2-a1-bootstrap` was merged through PR #1. Future milestone branches are planned, not asserted to exist:
 
 ```text
 main
-  |
-  +-- feature/v0.2-a1-bootstrap
-  +-- feature/v0.2-a2-schema
-  +-- feature/v0.2-a3-discovery
-  +-- feature/v0.2-a4-resolution
-  +-- feature/v0.2-a5-planning
+  +-- feature/v0.2-a1-bootstrap (merged via PR #1)
+  +-- feature/v0.2-a2-schema (planned)
+  +-- feature/v0.2-a3-discovery (planned)
+  +-- feature/v0.2-a4-resolution (planned)
+  +-- feature/v0.2-a5-planning (planned)
 ```
 
-Recommended commit prefixes include:
+Recommended commit prefixes: `feat:`, `fix:`, `test:`, `docs:`, `build:`, `refactor:`.
 
-```text
-feat:
-fix:
-test:
-docs:
-build:
-refactor:
-```
+Before merging each new milestone:
 
-Before merging a milestone into `main`:
+- [ ] Current and milestone-specific tests pass.
+- [ ] Applicable safety gates pass.
+- [ ] Lab verification completed where required.
+- [ ] Documentation describes actual behavior, not planned behavior as implemented.
+- [ ] `PROJECT_STATUS.md` updated.
+- [ ] Pull Request reviewed.
 
-- [ ] current tests pass;
-- [ ] milestone-specific tests pass;
-- [ ] applicable safety gates pass;
-- [ ] lab verification is completed where required;
-- [ ] documentation describes actual behavior;
-- [ ] planned capabilities are not presented as implemented;
-- [ ] `PROJECT_STATUS.md` is updated; and
-- [ ] the Pull Request is reviewed.
+This checklist is for **future milestones**; it does not reopen completed A1 gates.
 
 ---
 
@@ -808,41 +501,30 @@ Before merging a milestone into `main`:
 | Declarative topology JSON | Accepted | Separates portable intent from host implementation |
 | Discover host before resolution | Accepted | Prevents hard-coded interface assumptions |
 | Dedicated bridge per logical L2 segment | Accepted | Preserves Layer-2 isolation |
-| Router and host-SVI addressing remain independent | Accepted | Supports multiple numbered and unnumbered designs |
+| Router and host-SVI addressing remain independent | Accepted | Supports numbered and unnumbered designs |
 | Explicit configuration precedence | Accepted | Makes resolution predictable |
 | Missing configured devices are rejected | Accepted | Prevents unsafe silent substitution |
-| Plan before apply | Accepted | Creates a safety/review boundary |
+| Plan before apply | Accepted | Creates safety/review boundary |
 | Reconcile only relevant changed resources | Accepted | Avoids unnecessary disruption |
-| FRR lifecycle follows underlay validation | Accepted | Prevents routing daemons starting on invalid networking |
-| One FRR pathspace per router | Accepted | Isolates multiple logical routers |
+| FRR lifecycle follows underlay validation | Accepted | Prevents daemons starting on invalid networking |
+| One FRR pathspace per router | Accepted | Isolates logical routers |
 | Semantic validation outside JSON Schema | Accepted | Supports cross-object and host-dependent rules |
 
-Detailed architecture decisions belong in `docs/architecture/` and may later
-be promoted to individual ADR files.
+Detailed architecture decisions belong in `docs/architecture/` and may later be promoted to ADR files.
 
 ---
 
 # 19. Next Action
 
-The immediate next action is **not A2 yet**.
+**A1 implementation and verification are complete.** The remaining administrative action is to commit and review this post-merge status-documentation update without rewriting A1's historical merge.
 
-A1 must first be integrated into the authoritative branch.
+Recommended repository workflow:
 
-Next steps:
-
-1. Commit this A1 verification/status update to
-   `feature/v0.2-a1-bootstrap`.
-2. Rerun the seven automated tests.
-3. Push the feature branch.
-4. Create the project's first GitHub Pull Request:
-   `feature/v0.2-a1-bootstrap` -> `main`.
-5. Review the Pull Request.
-6. Merge A1 into `main`.
-7. Synchronize the Codespace checkout with merged `main`.
-8. Synchronize the WSL2 test-laptop checkout with merged `main`.
-9. Verify both environments reference the authoritative merged A1 commit.
-10. Mark v0.2-A1 **COMPLETE**.
-11. Begin v0.2-A2.
+1. In **Codespaces**, start from clean, up-to-date `main` at `547bb56` and create a documentation branch.
+2. Replace `PROJECT_STATUS.md` with this updated file; review the diff and run `git diff --check` and the seven tests.
+3. Commit and push the documentation branch; review and merge its Pull Request.
+4. Synchronize both Codespaces and WSL2 `main` again to the new documentation commit.
+5. Begin **v0.2-A2** on its own feature branch, with zero network changes.
 
 ---
 
@@ -860,28 +542,37 @@ Relationship to current suite: Historical evidence, not current GitHub tests
 ## v0.2-A1
 
 ```text
-Status: WSL2-LAB VERIFIED / PENDING MERGE
+Status: COMPLETE
+Pull Request: #1, MERGED
+Authoritative merged main commit:
+547bb56b770a804c02a950a02fc763d992b4b054
 
-Feature branch:
-feature/v0.2-a1-bootstrap
+Feature branch: feature/v0.2-a1-bootstrap
+Implementation commits: a9a3204, f5972dc
+Feature status evidence commit: 88523a9
 
-Implementation commits:
-a9a3204
-f5972dc
-
-Codespace:
+Codespaces:
+Branch: main
+Commit: 547bb56
+Git working tree: CLEAN
 Python: 3.14.2
+RouterGen: 0.2.0.dev0
 Tests: 7 PASS / 0 FAIL
 Diagnostic: PASS
 WSL: no
 
 WSL2 test laptop:
 Checkout: /mnt/c/Project/routergen
+Branch: main
+Commit: 547bb56
+Git working tree: CLEAN
 Python: 3.12.3
+RouterGen: 0.2.0.dev0
 Tests: 7 PASS / 0 FAIL
 Diagnostic: PASS
 WSL: yes
 
+Both environments synchronized to the same main commit: YES
 NETWORK_CHANGES_PERMITTED=NO
 ```
 
